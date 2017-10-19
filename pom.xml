@@ -1,47 +1,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--1:pom基础配置-->
     <modelVersion>4.0.0</modelVersion>
+    <name>pn</name>
+    <url>http://maven.apache.org</url>
+
     <groupId>cn.pn</groupId>
     <artifactId>pn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+
+    <!--2:pom模块配置-->
+    <modules>
+        <module>pn-dao</module>
+        <module>pn-common</module>
+    </modules>
+
+
+    <!--3:profile配置-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env.name>dev</env.name>
+            </properties>
+            <!--默认激活-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <env.name>pro</env.name>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <!--maven私服配置-->
     <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--&lt;!&ndash; ID要和MAVEN中conif/setting.xml 中的server保持一致 &ndash;&gt;-->
-            <!--<id>releases</id>-->
-            <!--<name>User Project Release</name>-->
-            <!--&lt;!&ndash; release版本的url地址 &ndash;&gt;-->
-            <!--<url>http://120.26.50.3:8081/repository/maven-releases/</url>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--&lt;!&ndash; ID要和MAVEN中conif/setting.xml 中的server保持一致 &ndash;&gt;-->
+    <!--<id>releases</id>-->
+    <!--<name>User Project Release</name>-->
+    <!--&lt;!&ndash; release版本的url地址 &ndash;&gt;-->
+    <!--<url>http://120.26.50.3:8081/repository/maven-releases/</url>-->
+    <!--</repository>-->
 
-        <!--<snapshotRepository>-->
-            <!--&lt;!&ndash; ID要和MAVEN中conif/setting.xml 中的server保持一致 &ndash;&gt;-->
-            <!--<id>snapshots</id>-->
-            <!--<name>User Project SNAPSHOTS</name>-->
-            <!--&lt;!&ndash; snapshot版本的url地址 &ndash;&gt;-->
-            <!--<url>http://120.26.50.3:8081/repository/maven-snapshots/</url>-->
-        <!--</snapshotRepository>-->
+    <!--<snapshotRepository>-->
+    <!--&lt;!&ndash; ID要和MAVEN中conif/setting.xml 中的server保持一致 &ndash;&gt;-->
+    <!--<id>snapshots</id>-->
+    <!--<name>User Project SNAPSHOTS</name>-->
+    <!--&lt;!&ndash; snapshot版本的url地址 &ndash;&gt;-->
+    <!--<url>http://120.26.50.3:8081/repository/maven-snapshots/</url>-->
+    <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
     <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>public</id>-->
-            <!--<name>public</name>-->
-            <!--&lt;!&ndash; 配置仓库的地址 &ndash;&gt;-->
-            <!--<url>http://120.26.50.3:8081/repository/maven-public/</url>-->
-            <!--<snapshots>-->
-                <!--<enabled>true</enabled>-->
-            <!--</snapshots>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>public</id>-->
+    <!--<name>public</name>-->
+    <!--&lt;!&ndash; 配置仓库的地址 &ndash;&gt;-->
+    <!--<url>http://120.26.50.3:8081/repository/maven-public/</url>-->
+    <!--<snapshots>-->
+    <!--<enabled>true</enabled>-->
+    <!--</snapshots>-->
+    <!--</repository>-->
     <!--</repositories>-->
 
     <build>
+
+        <filters>
+            <filter>../filters/${env.name}/*.properties</filter>
+        </filters>
         <resources>
             <!-- 保证所有的resources下的配置文件能被编译打包 -->
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>filters/main/resources</directory>
                 <includes>
                     <include>**/*.*</include>
                 </includes>
@@ -49,7 +87,7 @@
             </resource>
             <!-- 保证resources下的所有的properties配置文件可以被过滤-->
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>filters/main/resources</directory>
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
@@ -65,8 +103,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>UTF8</encoding>
                 </configuration>
             </plugin>
